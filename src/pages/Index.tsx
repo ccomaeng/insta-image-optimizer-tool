@@ -1,6 +1,6 @@
 
 import React, { useState, useRef, useEffect } from 'react';
-import { Image, Upload, Download, Loader } from 'lucide-react';
+import { Image as ImageIcon, Upload, Download, Loader } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 
@@ -74,7 +74,7 @@ const Index = () => {
       reader.onload = (e) => {
         const result = e.target?.result;
         if (typeof result === 'string') {
-          const img = new Image();
+          const img = new window.Image();  // Use window.Image instead of Image
           img.onload = () => {
             setOriginalImage(img);
           };
@@ -245,7 +245,7 @@ const Index = () => {
       <div className="container max-w-xl bg-white shadow-xl rounded-lg p-6 md:p-8">
         <header className="text-center mb-6">
           <h1 className="text-2xl md:text-3xl font-bold text-sky-600 flex justify-center items-center gap-2">
-            <Image className="h-8 w-8" />
+            <ImageIcon className="h-8 w-8" />
             인스타그램 이미지 최적화 도구
           </h1>
           <p className="text-sm text-slate-600 mt-2">이미지를 선택하고 원하는 형식으로 변환하세요.</p>
