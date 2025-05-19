@@ -2,12 +2,14 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Image as ImageIcon, Upload, Download, Loader } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
+
 interface ImageFormat {
   name: string;
   width: number;
   height: number;
   ratio: number;
 }
+
 const instagramFormats: Record<string, ImageFormat> = {
   'square': {
     name: '정방형',
@@ -34,6 +36,7 @@ const instagramFormats: Record<string, ImageFormat> = {
     ratio: 9 / 16
   }
 };
+
 const Index = () => {
   const [selectedFormat, setSelectedFormat] = useState<string>('square');
   const [originalImage, setOriginalImage] = useState<HTMLImageElement | null>(null);
@@ -43,6 +46,7 @@ const Index = () => {
   const [uploadedFileName, setUploadedFileName] = useState<string>('optimized_image');
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
   useEffect(() => {
     // Initialize canvas with placeholder
     if (canvasRef.current) {
@@ -60,11 +64,13 @@ const Index = () => {
       }
     }
   }, []);
+
   useEffect(() => {
     if (originalImage) {
       updatePreview();
     }
   }, [selectedFormat, originalImage]);
+
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
     setFileError('');
@@ -99,6 +105,7 @@ const Index = () => {
       resetCanvas();
     }
   };
+
   const resetCanvas = () => {
     if (canvasRef.current) {
       const canvas = canvasRef.current;
@@ -116,6 +123,7 @@ const Index = () => {
       }
     }
   };
+
   const updatePreview = () => {
     if (!originalImage || !canvasRef.current) return;
     const canvas = canvasRef.current;
@@ -150,6 +158,7 @@ const Index = () => {
     ctx.drawImage(originalImage, sx, sy, sWidth, sHeight, 0, 0, targetWidth, targetHeight);
     setStatusMessage('미리보기가 업데이트되었습니다. 다운로드 버튼을 누르세요.');
   };
+
   const dataURLtoBlob = (dataURL: string): Blob => {
     const arr = dataURL.split(',');
     const mimeMatch = arr[0].match(/:(.*?);/);
@@ -168,6 +177,7 @@ const Index = () => {
       type: mime
     });
   };
+
   const handleOptimizeAndDownload = async () => {
     if (!originalImage || !canvasRef.current) {
       setStatusMessage('먼저 이미지를 선택해주세요.');
@@ -225,17 +235,19 @@ const Index = () => {
     const fileSizeMB = optimizedBlob.size / (1024 * 1024);
     setStatusMessage(`다운로드 완료! 파일 크기: ${fileSizeMB.toFixed(2)}MB (품질: ${finalQuality.toFixed(2)})`);
   };
+
   const handleUploadClick = () => {
     if (fileInputRef.current) {
       fileInputRef.current.click();
     }
   };
+
   return <div className="min-h-screen bg-slate-100 text-slate-800 flex items-center justify-center py-6 px-4">
       <div className="container max-w-xl bg-white shadow-xl rounded-lg p-6 md:p-8">
         <header className="text-center mb-6">
           <h1 className="text-2xl md:text-3xl font-bold text-sky-600 flex justify-center items-center gap-2">
             <ImageIcon className="h-8 w-8" />
-            인스타그램 이미지 최적화 도구
+            인스타 이미지 최적화
           </h1>
           <p className="text-sm text-slate-600 mt-2">이미지를 선택하고 원하는 형식으로 변환하세요.</p>
         </header>
@@ -286,10 +298,11 @@ const Index = () => {
         </div>
 
         <footer className="text-center mt-8 text-xs text-slate-500">
-          <p>© 2025 이미지 최적화 도구. 해당 프로그램의 모든 권리는 car1004 보유.</p>
+          <p>© 2025 인스타 이미지 최적화. 해당 프로그램의 모든 권리는 car1004 보유.</p>
           <p className="mt-1">참고: 이미지는 브라우저 내에서만 처리되며, 서버로 전송되지 않습니다.</p>
         </footer>
       </div>
     </div>;
 };
+
 export default Index;
